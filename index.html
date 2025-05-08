@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <button id="startButton">Start Animation and Audio</button> <!-- Single button for both actions -->
+    <button id="startButton">Start Animation</button> <!-- Single button for animation -->
     <button id="restart">Reset</button>
     <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
     <script>
       // Global Variables
-      let scene, camera, renderer, sphere, sound, animationStarted = false;
+      let scene, camera, renderer, sphere, bounceSound, animationStarted = false;
 
       function init() {
         // Renderer
@@ -92,12 +92,10 @@
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
         // Physics
-
-        //I set the accerlation to 21 because the original 9.8 was too slow
-        let acceleration = 21;
+        let acceleration = 9.8;
         let currentVelocity = 0;
-        let currentHeight = sphere.position.y;
-        let currentXDistance = sphere.position.x;
+        let currentHeight = 5; // Initial height of the sphere
+        let currentXDistance = 0; // Initial x position of the sphere
         let currentXVelocity = 3;
         let currentXAcceleration = 2;
 
@@ -107,7 +105,7 @@
           requestAnimationFrame(animate);
 
           // Time management
-          const deltaTime = 0.016;
+          const deltaTime = 0.016; //Approximate framerate
 
           // Vertical motion
           currentVelocity -= acceleration * deltaTime;
@@ -119,7 +117,7 @@
           // Collision detection with the floor
           if (currentHeight <= 0) {
             currentHeight = 0;
-            currentVelocity = -currentVelocity * 0.85;
+            currentVelocity = -currentVelocity * 0.85;2
           }
 
           // Horizontal motion
@@ -145,35 +143,23 @@
         const listener = new THREE.AudioListener();
         camera.add(listener);
 
-        sound = new THREE.Audio(listener);
 
-        const audioLoader = new THREE.AudioLoader();
-        audioLoader.load(
-          'https://raw.githubusercontent.com/Dodf12/CSCI168/main/Homework/Homework5/myAudio.mp3',
-          function (buffer) {
-            sound.setBuffer(buffer);
-            sound.setLoop(false);
-            sound.setVolume(0.5);
-          }
-        );
 
-        // Add event listener to the button to start animation and audio
+        // Add event listener to the button to start animation
         document.getElementById('startButton').addEventListener('click', () => {
           if (!animationStarted) {
             animationStarted = true; // Start the animation
-            sound.play(); // Play the audio
             animate(); // Start the animation loop
           }
         });
 
         document.getElementById('restart').addEventListener('click', () => {
           location.reload(); // Reload the page to reset everything
-
         });
       }
 
       window.onload = init;
     </script>
-    <h3>Click reset to reload teh page and click "startanimatinon and audio" to replay animation</h3>
+    <h3>Click reset to reload the page and click "Start Animation" to replay animation</h3>
   </body>
 </html>
