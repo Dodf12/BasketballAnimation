@@ -100,6 +100,12 @@
         directionalLight2.castShadow = true;
         scene.add(directionalLight2);
 
+
+        const directionalLight3 = new THREE.DirectionalLight(0xffffff, 2); // Increase intensity
+        directionalLight3.position.set(50, 30, 7);
+        directionalLight3.castShadow = true;
+        scene.add(directionalLight3);
+
         const pointLight = new THREE.PointLight(0xffffff, 3); // Increase intensity
         pointLight.position.set(0, 0, 15);
         pointLight.castShadow = true;
@@ -124,11 +130,10 @@
         let currentXDistance = sphere.position.x;
         let currentXVelocity = 0.5;
         let currentXAcceleration = 2;
-
         function animate() {
           if (!animationStarted) return; // Exit if animation is not started
 
-          requestAnimationFrame(animate);
+          requestAnimationFrame(animate); // Keep the animation loop running
 
           // Time management
           const deltaTime = 0.016;
@@ -157,33 +162,26 @@
             currentXVelocity * deltaTime +
             0.5 * currentXAcceleration * deltaTime * deltaTime;
 
-          // Stop the audio when x reaches 50
-          if (currentXDistance >= 80 && sound.isPlaying) {
-            sound.stop();
-          }
-
+          // Reset the ball's position and motion variables when it reaches a certain distance
           if (currentXDistance > 150) {
-            let acceleration = 9.8;
-            let currentVelocity = 0;
-            let currentHeight = sphere.position.y;
-            let currentXDistance = sphere.position.x;
-            let currentXVelocity = 3;
-            let currentXAcceleration = 2;
-
-            sphere.setPosition(-10, 10, 0); // Reset position
+            currentHeight = 30; // Reset height
+            currentVelocity = 0; // Reset vertical velocity
+            currentXDistance = -50; // Reset horizontal position
+            currentXVelocity = 0.5; // Reset horizontal velocity
           }
 
           // Update sphere position
           sphere.position.y = currentHeight;
           sphere.position.x = currentXDistance;
 
-          //Rotating teh ball
-          sphere.rotation.z -= 0.01; 
+          // Rotate the ball
+          sphere.rotation.z -= 0.01; // Adjust rotation speed as needed
 
           // Render the scene
           renderer.setClearColor(0x7da7eb);
           renderer.render(scene, camera);
         }
+        // Start the animation loop   
 
         // Audio setup
         const listener = new THREE.AudioListener();
