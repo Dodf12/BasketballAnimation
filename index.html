@@ -29,12 +29,12 @@
           floorTexture.wrapS = THREE.RepeatWrapping;
           floorTexture.wrapT = THREE.RepeatWrapping;
           floorTexture.repeat.set(4, 4);
-          floorTexture.encoding = THREE.sRGBEncoding; // Ensure proper brightness
+          floorTexture.encoding = THREE.sRGBEncoding; 
 
           const material = new THREE.MeshStandardMaterial({
             map: floorTexture,
-            metalness: 0.1, // Reduce metalness
-            roughness: 0.5, // Adjust roughness
+            metalness: 0.1, 
+            roughness: 0.5, 
           });
 
           const floor = new THREE.Mesh(geometry, material);
@@ -86,32 +86,32 @@
 
         const geometry = new THREE.PlaneGeometry(400, 400);
         const plane = new THREE.Mesh(geometry, material);
-        plane.position.set(0, 0, -50); // Adjust position if needed
+        plane.position.set(0, 0, -50); 
         scene.add(plane);
 
         // Add lighting
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 2); // Increase intensity
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 2); 
         directionalLight.position.set(-10, 10, -10);
         directionalLight.castShadow = true;
         scene.add(directionalLight);
 
-        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 2); // Increase intensity
+        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 2); 
         directionalLight2.position.set(-10, 10, 170);
         directionalLight2.castShadow = true;
         scene.add(directionalLight2);
 
 
-        const directionalLight3 = new THREE.DirectionalLight(0xffffff, 2); // Increase intensity
+        const directionalLight3 = new THREE.DirectionalLight(0xffffff, 2); 
         directionalLight3.position.set(50, 30, 7);
         directionalLight3.castShadow = true;
         scene.add(directionalLight3);
 
-        const pointLight = new THREE.PointLight(0xffffff, 3); // Increase intensity
+        const pointLight = new THREE.PointLight(0xffffff, 3); 
         pointLight.position.set(0, 0, 15);
         pointLight.castShadow = true;
         scene.add(pointLight);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Add ambient light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); 
         scene.add(ambientLight);
 
 
@@ -129,11 +129,11 @@
         let currentHeight = sphere.position.y;
         let currentXDistance = sphere.position.x;
         let currentXVelocity = 0.5;
-        let currentXAcceleration = 2;
+        let currentXAcceleration = 1;
         function animate() {
-          if (!animationStarted) return; // Exit if animation is not started
+          if (!animationStarted) return; 
 
-          requestAnimationFrame(animate); // Keep the animation loop running
+          requestAnimationFrame(animate); 
 
           // Time management
           const deltaTime = 0.016;
@@ -164,10 +164,10 @@
 
           // Reset the ball's position and motion variables when it reaches a certain distance
           if (currentXDistance > 150) {
-            currentHeight = 30; // Reset height
-            currentVelocity = 0; // Reset vertical velocity
-            currentXDistance = -50; // Reset horizontal position
-            currentXVelocity = 0.5; // Reset horizontal velocity
+            currentHeight = 30; 
+            currentVelocity = 0; 
+            currentXDistance = -50; 
+            currentXVelocity = 0.5; 
           }
 
           // Update sphere position
@@ -175,7 +175,7 @@
           sphere.position.x = currentXDistance;
 
           // Rotate the ball
-          sphere.rotation.z -= 0.01; // Adjust rotation speed as needed
+          sphere.rotation.z -= 0.008; 
 
           // Render the scene
           renderer.setClearColor(0x7da7eb);
@@ -202,13 +202,13 @@
         // Add event listener to the button to start animation and audio
         document.getElementById('startButton').addEventListener('click', () => {
           if (!animationStarted) {
-            animationStarted = true; // Start the animation
-            animate(); // Start the animation loop
+            animationStarted = true; 
+            animate(); 
           }
         });
 
         document.getElementById('restart').addEventListener('click', () => {
-          location.reload(); // Reload the page to reset everything
+          location.reload(); 
         });
       }
 
