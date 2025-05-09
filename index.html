@@ -21,7 +21,7 @@
 
         // Add a floor
         function addFloor(scene) {
-          const geometry = new THREE.BoxGeometry(200, 10, 200);
+          const geometry = new THREE.BoxGeometry(500, 10, 500);
           const textureLoader = new THREE.TextureLoader();
           const floorTexture = textureLoader.load(
             'https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/precast_stone_paving/precast_stone_paving_diff_4k.jpg'
@@ -58,7 +58,7 @@
           });
 
           const basketball = new THREE.Mesh(g, m);
-          basketball.position.set(0, 5, 0);
+          basketball.position.set(-10, 10, 0);
           basketball.name = 'basketball';
           basketball.castShadow = true;
           scene.add(basketball);
@@ -94,7 +94,7 @@
         // Physics
 
         //I set the accerlation to 21 because the original 9.8 was too slow
-        let acceleration = 21;
+        let acceleration = 9.8;
         let currentVelocity = 0;
         let currentHeight = sphere.position.y;
         let currentXDistance = sphere.position.x;
@@ -120,6 +120,11 @@
           if (currentHeight <= 0) {
             currentHeight = 0;
             currentVelocity = -currentVelocity * 0.85;
+
+            // Play the audio when y is 0
+            if (!sound.isPlaying) {
+              sound.play();
+            }
           }
 
           // Horizontal motion
@@ -128,8 +133,20 @@
             currentXVelocity * deltaTime +
             0.5 * currentXAcceleration * deltaTime * deltaTime;
 
-          if (currentXDistance > 80) {
-            currentXVelocity = 0;
+          // Stop the audio when x reaches 50
+          if (currentXDistance >= 50 && sound.isPlaying) {
+            sound.stop();
+          }
+
+          if (currentXDistance > 150) {
+            let acceleration = 9.8;
+            let currentVelocity = 0;
+            let currentHeight = sphere.position.y;
+            let currentXDistance = sphere.position.x;
+            let currentXVelocity = 3;
+            let currentXAcceleration = 2;
+
+            sphere.setPosition(-10, 10, 0); // Reset position
           }
 
           // Update sphere position
@@ -149,7 +166,7 @@
 
         const audioLoader = new THREE.AudioLoader();
         audioLoader.load(
-          'https://raw.githubusercontent.com/Dodf12/CSCI168/main/Homework/Homework5/myAudio.mp3',
+          'https://raw.githubusercontent.com/Dodf12/CSCI168/main/Homework/Homework5/ballBounce.mp3',
           function (buffer) {
             sound.setBuffer(buffer);
             sound.setLoop(false);
@@ -161,19 +178,17 @@
         document.getElementById('startButton').addEventListener('click', () => {
           if (!animationStarted) {
             animationStarted = true; // Start the animation
-            sound.play(); // Play the audio
             animate(); // Start the animation loop
           }
         });
 
         document.getElementById('restart').addEventListener('click', () => {
           location.reload(); // Reload the page to reset everything
-
         });
       }
 
       window.onload = init;
     </script>
-    <h3>Click reset to reload teh page and click "startanimatinon and audio" to replay animation</h3>
+    <h3>Click reset to reload the page and click "Start Animation and Audio" to replay animation</h3>
   </body>
 </html>
